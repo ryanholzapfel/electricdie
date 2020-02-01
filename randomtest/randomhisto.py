@@ -21,16 +21,24 @@ def dictPrintVert(dd):
         print(str(key)+" : "+str(dd[key]))
 
 
-
-with open("/Users/ryan/Documents/Arduino/randomtest/random20-1000") as fileIn:
+#save serial output of arduino to a text file with comma separated "dice rolls" in one line with no whitespace
+with open("./random20-1000") as fileIn:
+    #read the file, split it on the commas into a list, convert to int
     ln = fileIn.readline()
     ll = ln.split(",")
-#    for i in ll:
-#        ll[i] = int(ll[i])
+    for i in range(len(ll)):
+        txt = ll[i]
+        ll[i] = int(txt)
+    
+    #make empty dict, total count, find min and max possible roll
     dd = {}
     total = 0
-    for j in range(1,21):
-        dd[j] = ll.count(str(j))
+    maxRoll = max(ll)+1 #add one for the range of the for loop
+    minRoll = min(ll)
+
+    #loop through list, counting each instance of any possible roll
+    for j in range(minRoll, maxRoll):
+        dd[j] = ll.count(j)
         total += dd[j]
     dictPrintVert(dd)
     print("Total Rolls: ",total)
